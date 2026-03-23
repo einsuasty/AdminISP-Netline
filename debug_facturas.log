@@ -1,0 +1,879 @@
+[2025-09-10 18:34:58] --- INICIO DE PETICIÓN ---
+DATOS RECIBIDOS (JSON): {"action":"update_invoice_status","factura_id":"100","estado":"Pagada"}
+SESIÓN ACTUAL: No hay sesión activa o está vacía.
+--- FIN DE PETICIÓN ---
+
+[2025-09-10 18:39:02] --- INICIO DE PETICIÓN ---
+DATOS RECIBIDOS (JSON): {"action":"update_invoice_status","factura_id":"94","estado":"Pagada"}
+SESIÓN ACTUAL: No hay sesión activa o está vacía.
+--- FIN DE PETICIÓN ---
+
+[2025-09-12 16:48:27] --- INICIO DE PETICIÓN ---
+DATOS RECIBIDOS (JSON): {"action":"update_invoice_status","factura_id":"93","estado":"Pagada"}
+SESIÓN ACTUAL: No hay sesión activa o está vacía.
+--- FIN DE PETICIÓN ---
+
+[2025-09-12 16:55:11] --- INICIO DE PETICIÓN ---
+DATOS RECIBIDOS (JSON): {"action":"update_invoice_status","factura_id":"92","estado":"Pagada"}
+SESIÓN ACTUAL: Array
+(
+    [loggedin] => 1
+    [user_id] => 123456
+    [username] => Super Admin
+    [role] => Usuario de Gestión
+    [allowed_modules] => Array
+        (
+            [0] => usuarios
+            [1] => planes
+            [2] => facturacion
+            [3] => ingresos-gastos
+            [4] => inventario
+            [5] => queues
+            [6] => monitoreo
+        )
+
+)
+
+--- FIN DE PETICIÓN ---
+
+[2025-09-12 16:57:00] --- INICIO DE PETICIÓN ---
+DATOS RECIBIDOS (JSON): {"action":"update_invoice_status","factura_id":"91","estado":"Pagada"}
+SESIÓN ACTUAL: Array
+(
+    [loggedin] => 1
+    [user_id] => 123456
+    [username] => Super Admin
+    [role] => Usuario de Gestión
+    [allowed_modules] => Array
+        (
+            [0] => usuarios
+            [1] => planes
+            [2] => facturacion
+            [3] => ingresos-gastos
+            [4] => inventario
+            [5] => queues
+            [6] => monitoreo
+        )
+
+)
+
+--- FIN DE PETICIÓN ---
+
+[2025-09-12 17:07:54] --- INICIO DE PETICIÓN ---
+DATOS RECIBIDOS (JSON): {"action":"update_invoice_status","factura_id":"104","estado":"Pagada"}
+SESIÓN ACTUAL: Array
+(
+    [loggedin] => 1
+    [user_id] => 123456
+    [username] => Super Admin
+    [role] => Usuario de Gestión
+    [allowed_modules] => Array
+        (
+            [0] => usuarios
+            [1] => planes
+            [2] => facturacion
+            [3] => ingresos-gastos
+            [4] => inventario
+            [5] => queues
+            [6] => monitoreo
+        )
+
+)
+
+--- FIN DE PETICIÓN ---
+
+[2025-09-12 17:08:50] --- INICIO DE PETICIÓN ---
+DATOS RECIBIDOS (JSON): {"action":"update_invoice_status","factura_id":"94","estado":"Pagada"}
+SESIÓN ACTUAL: Array
+(
+    [loggedin] => 1
+    [user_id] => 123456
+    [username] => Super Admin
+    [role] => Usuario de Gestión
+    [allowed_modules] => Array
+        (
+            [0] => usuarios
+            [1] => planes
+            [2] => facturacion
+            [3] => ingresos-gastos
+            [4] => inventario
+            [5] => queues
+            [6] => monitoreo
+        )
+
+)
+
+--- FIN DE PETICIÓN ---
+
+[2025-09-12 17:55:19] --- INICIO DE PETICIÓN ---
+DATOS RECIBIDOS (JSON): {"action":"update_invoice_status","factura_id":"93","estado":"Pagada"}
+SESIÓN ACTUAL: Array
+(
+    [loggedin] => 1
+    [user_id] => 123456
+    [username] => Super Admin
+    [role] => Usuario de Gestión
+    [allowed_modules] => Array
+        (
+            [0] => usuarios
+            [1] => planes
+            [2] => facturacion
+            [3] => ingresos-gastos
+            [4] => inventario
+            [5] => queues
+            [6] => monitoreo
+        )
+
+)
+
+--- FIN DE PETICIÓN ---
+
+[2025-09-12 17:56:23] --- INICIO DE PETICIÓN ---
+DATOS RECIBIDOS (JSON): {"action":"update_invoice_status","factura_id":"91","estado":"Pagada"}
+SESIÓN ACTUAL: Array
+(
+    [loggedin] => 1
+    [user_id] => 45855
+    [username] => Facturacion
+    [role] => Usuario de Gestión
+    [allowed_modules] => Array
+        (
+            [0] => facturacion
+            [1] => inventario
+        )
+
+)
+
+--- FIN DE PETICIÓN ---
+
+[2025-09-12 23:31:00] --- INICIO DE PETICIÓN ---
+DATOS RECIBIDOS (JSON): {"action":"update_invoice_status","factura_id":"214","estado":"Pagada"}
+SESIÓN ACTUAL: Array
+(
+    [loggedin] => 1
+    [user_id] => 123456
+    [username] => Super Admin
+    [role] => Usuario de Gestión
+    [allowed_modules] => Array
+        (
+            [0] => usuarios
+            [1] => planes
+            [2] => facturacion
+            [3] => ingresos-gastos
+            [4] => inventario
+            [5] => queues
+            [6] => monitoreo
+        )
+
+)
+
+--- FIN DE PETICIÓN ---
+
+[2025-09-12 23:32:44] --- INICIO DE PETICIÓN ---
+DATOS RECIBIDOS (JSON): {"action":"update_invoice_status","factura_id":"213","estado":"Anulada"}
+SESIÓN ACTUAL: Array
+(
+    [loggedin] => 1
+    [user_id] => 123456
+    [username] => Super Admin
+    [role] => Usuario de Gestión
+    [allowed_modules] => Array
+        (
+            [0] => usuarios
+            [1] => planes
+            [2] => facturacion
+            [3] => ingresos-gastos
+            [4] => inventario
+            [5] => queues
+            [6] => monitoreo
+        )
+
+)
+
+--- FIN DE PETICIÓN ---
+
+[2025-09-13 01:37:47] --- INICIO DE PETICIÓN ---
+DATOS RECIBIDOS (JSON): {"action":"update_invoice_status","factura_id":"217","estado":"Pagada"}
+SESIÓN ACTUAL: Array
+(
+    [loggedin] => 1
+    [user_id] => 45855
+    [username] => Facturacion
+    [role] => Usuario de Gestión
+    [allowed_modules] => Array
+        (
+            [0] => facturacion
+            [1] => inventario
+        )
+
+)
+
+--- FIN DE PETICIÓN ---
+
+[2025-09-13 03:25:07] --- INICIO DE PETICIÓN ---
+DATOS RECIBIDOS (JSON): {"action":"update_invoice_status","factura_id":"216","estado":"Pagada"}
+SESIÓN ACTUAL: Array
+(
+    [loggedin] => 1
+    [user_id] => 123456
+    [username] => Super Admin
+    [role] => Usuario de Gestión
+    [allowed_modules] => Array
+        (
+            [0] => usuarios
+            [1] => planes
+            [2] => facturacion
+            [3] => ingresos-gastos
+            [4] => inventario
+            [5] => queues
+            [6] => monitoreo
+        )
+
+)
+
+--- FIN DE PETICIÓN ---
+
+[2025-09-13 04:39:58] --- INICIO DE PETICIÓN ---
+DATOS RECIBIDOS (JSON): {"action":"update_invoice_status","factura_id":"218","estado":"Pagada"}
+SESIÓN ACTUAL: Array
+(
+    [loggedin] => 1
+    [user_id] => 45855
+    [username] => Facturacion
+    [role] => Usuario de Gestión
+    [allowed_modules] => Array
+        (
+            [0] => usuarios
+            [1] => facturacion
+            [2] => inventario
+        )
+
+)
+
+--- FIN DE PETICIÓN ---
+
+[2025-09-13 14:53:14] --- INICIO DE PETICIÓN ---
+DATOS RECIBIDOS (JSON): {"action":"update_invoice_status","factura_id":"212","estado":"Pagada"}
+SESIÓN ACTUAL: Array
+(
+    [loggedin] => 1
+    [user_id] => 123456
+    [username] => Super Admin
+    [role] => Usuario de Gestión
+    [allowed_modules] => Array
+        (
+            [0] => usuarios
+            [1] => planes
+            [2] => facturacion
+            [3] => ingresos-gastos
+            [4] => inventario
+            [5] => queues
+            [6] => monitoreo
+        )
+
+)
+
+--- FIN DE PETICIÓN ---
+
+[2025-09-13 15:25:22] --- INICIO DE PETICIÓN ---
+DATOS RECIBIDOS (JSON): {"action":"update_invoice_status","factura_id":"219","estado":"Anulada"}
+SESIÓN ACTUAL: Array
+(
+    [loggedin] => 1
+    [user_id] => 123456
+    [username] => Super Admin
+    [role] => Usuario de Gestión
+    [allowed_modules] => Array
+        (
+            [0] => usuarios
+            [1] => planes
+            [2] => facturacion
+            [3] => ingresos-gastos
+            [4] => inventario
+            [5] => queues
+            [6] => monitoreo
+        )
+
+)
+
+--- FIN DE PETICIÓN ---
+
+[2025-09-13 15:49:50] --- INICIO DE PETICIÓN ---
+DATOS RECIBIDOS (JSON): {"action":"update_invoice_status","factura_id":"220","estado":"Anulada"}
+SESIÓN ACTUAL: Array
+(
+    [loggedin] => 1
+    [user_id] => 123456
+    [username] => Super Admin
+    [role] => Usuario de Gestión
+    [allowed_modules] => Array
+        (
+            [0] => usuarios
+            [1] => planes
+            [2] => facturacion
+            [3] => ingresos-gastos
+            [4] => inventario
+            [5] => queues
+            [6] => monitoreo
+        )
+
+)
+
+--- FIN DE PETICIÓN ---
+
+[2025-09-13 16:03:47] --- INICIO DE PETICIÓN ---
+DATOS RECIBIDOS (JSON): {"action":"update_invoice_status","factura_id":"282","estado":"Anulada"}
+SESIÓN ACTUAL: Array
+(
+    [loggedin] => 1
+    [user_id] => 123456
+    [username] => Super Admin
+    [role] => Usuario de Gestión
+    [allowed_modules] => Array
+        (
+            [0] => usuarios
+            [1] => planes
+            [2] => facturacion
+            [3] => ingresos-gastos
+            [4] => inventario
+            [5] => queues
+            [6] => monitoreo
+        )
+
+)
+
+--- FIN DE PETICIÓN ---
+
+[2025-09-13 16:03:52] --- INICIO DE PETICIÓN ---
+DATOS RECIBIDOS (JSON): {"action":"update_invoice_status","factura_id":"280","estado":"Pagada"}
+SESIÓN ACTUAL: Array
+(
+    [loggedin] => 1
+    [user_id] => 123456
+    [username] => Super Admin
+    [role] => Usuario de Gestión
+    [allowed_modules] => Array
+        (
+            [0] => usuarios
+            [1] => planes
+            [2] => facturacion
+            [3] => ingresos-gastos
+            [4] => inventario
+            [5] => queues
+            [6] => monitoreo
+        )
+
+)
+
+--- FIN DE PETICIÓN ---
+
+[2025-09-13 16:03:59] --- INICIO DE PETICIÓN ---
+DATOS RECIBIDOS (JSON): {"action":"update_invoice_status","factura_id":"269","estado":"Pagada"}
+SESIÓN ACTUAL: Array
+(
+    [loggedin] => 1
+    [user_id] => 123456
+    [username] => Super Admin
+    [role] => Usuario de Gestión
+    [allowed_modules] => Array
+        (
+            [0] => usuarios
+            [1] => planes
+            [2] => facturacion
+            [3] => ingresos-gastos
+            [4] => inventario
+            [5] => queues
+            [6] => monitoreo
+        )
+
+)
+
+--- FIN DE PETICIÓN ---
+
+[2025-09-13 16:20:41] --- INICIO DE PETICIÓN ---
+DATOS RECIBIDOS (JSON): {"action":"update_invoice_status","factura_id":"281","estado":"Pagada"}
+SESIÓN ACTUAL: Array
+(
+    [loggedin] => 1
+    [user_id] => 123456
+    [username] => Super Admin
+    [role] => Usuario de Gestión
+    [allowed_modules] => Array
+        (
+            [0] => usuarios
+            [1] => planes
+            [2] => facturacion
+            [3] => ingresos-gastos
+            [4] => inventario
+            [5] => queues
+            [6] => monitoreo
+        )
+
+)
+
+--- FIN DE PETICIÓN ---
+
+[2025-09-13 16:59:39] --- INICIO DE PETICIÓN ---
+DATOS RECIBIDOS (JSON): {"action":"update_invoice_status","factura_id":"271","estado":"Pagada"}
+SESIÓN ACTUAL: Array
+(
+    [loggedin] => 1
+    [user_id] => 45855
+    [username] => Facturacion
+    [role] => Usuario de Gestión
+    [allowed_modules] => Array
+        (
+            [0] => usuarios
+            [1] => facturacion
+            [2] => inventario
+        )
+
+)
+
+--- FIN DE PETICIÓN ---
+
+[2025-09-13 16:59:47] --- INICIO DE PETICIÓN ---
+DATOS RECIBIDOS (JSON): {"action":"update_invoice_status","factura_id":"274","estado":"Pagada"}
+SESIÓN ACTUAL: Array
+(
+    [loggedin] => 1
+    [user_id] => 45855
+    [username] => Facturacion
+    [role] => Usuario de Gestión
+    [allowed_modules] => Array
+        (
+            [0] => usuarios
+            [1] => facturacion
+            [2] => inventario
+        )
+
+)
+
+--- FIN DE PETICIÓN ---
+
+[2025-09-13 16:59:53] --- INICIO DE PETICIÓN ---
+DATOS RECIBIDOS (JSON): {"action":"update_invoice_status","factura_id":"279","estado":"Pagada"}
+SESIÓN ACTUAL: Array
+(
+    [loggedin] => 1
+    [user_id] => 45855
+    [username] => Facturacion
+    [role] => Usuario de Gestión
+    [allowed_modules] => Array
+        (
+            [0] => usuarios
+            [1] => facturacion
+            [2] => inventario
+        )
+
+)
+
+--- FIN DE PETICIÓN ---
+
+[2025-09-13 16:59:58] --- INICIO DE PETICIÓN ---
+DATOS RECIBIDOS (JSON): {"action":"update_invoice_status","factura_id":"278","estado":"Anulada"}
+SESIÓN ACTUAL: Array
+(
+    [loggedin] => 1
+    [user_id] => 45855
+    [username] => Facturacion
+    [role] => Usuario de Gestión
+    [allowed_modules] => Array
+        (
+            [0] => usuarios
+            [1] => facturacion
+            [2] => inventario
+        )
+
+)
+
+--- FIN DE PETICIÓN ---
+
+[2025-09-13 17:00:02] --- INICIO DE PETICIÓN ---
+DATOS RECIBIDOS (JSON): {"action":"update_invoice_status","factura_id":"276","estado":"Anulada"}
+SESIÓN ACTUAL: Array
+(
+    [loggedin] => 1
+    [user_id] => 45855
+    [username] => Facturacion
+    [role] => Usuario de Gestión
+    [allowed_modules] => Array
+        (
+            [0] => usuarios
+            [1] => facturacion
+            [2] => inventario
+        )
+
+)
+
+--- FIN DE PETICIÓN ---
+
+[2025-09-13 17:00:06] --- INICIO DE PETICIÓN ---
+DATOS RECIBIDOS (JSON): {"action":"update_invoice_status","factura_id":"268","estado":"Anulada"}
+SESIÓN ACTUAL: Array
+(
+    [loggedin] => 1
+    [user_id] => 45855
+    [username] => Facturacion
+    [role] => Usuario de Gestión
+    [allowed_modules] => Array
+        (
+            [0] => usuarios
+            [1] => facturacion
+            [2] => inventario
+        )
+
+)
+
+--- FIN DE PETICIÓN ---
+
+[2025-09-13 17:33:11] --- INICIO DE PETICIÓN ---
+DATOS RECIBIDOS (JSON): {"action":"update_invoice_status","factura_id":"270","estado":"Pagada"}
+SESIÓN ACTUAL: Array
+(
+    [loggedin] => 1
+    [user_id] => 45855
+    [username] => Facturacion
+    [role] => Usuario de Gestión
+    [allowed_modules] => Array
+        (
+            [0] => usuarios
+            [1] => facturacion
+            [2] => inventario
+        )
+
+)
+
+--- FIN DE PETICIÓN ---
+
+[2025-09-13 20:22:03] --- INICIO DE PETICIÓN ---
+DATOS RECIBIDOS (JSON): {"action":"update_invoice_status","factura_id":"405","estado":"Pagada"}
+SESIÓN ACTUAL: Array
+(
+    [loggedin] => 1
+    [user_id] => 123456
+    [username] => Super Admin
+    [role] => Usuario de Gestión
+    [allowed_modules] => Array
+        (
+            [0] => usuarios
+            [1] => planes
+            [2] => facturacion
+            [3] => ingresos-gastos
+            [4] => inventario
+            [5] => queues
+            [6] => monitoreo
+        )
+
+)
+
+--- FIN DE PETICIÓN ---
+
+[2025-09-13 20:22:08] --- INICIO DE PETICIÓN ---
+DATOS RECIBIDOS (JSON): {"action":"update_invoice_status","factura_id":"403","estado":"Pagada"}
+SESIÓN ACTUAL: Array
+(
+    [loggedin] => 1
+    [user_id] => 123456
+    [username] => Super Admin
+    [role] => Usuario de Gestión
+    [allowed_modules] => Array
+        (
+            [0] => usuarios
+            [1] => planes
+            [2] => facturacion
+            [3] => ingresos-gastos
+            [4] => inventario
+            [5] => queues
+            [6] => monitoreo
+        )
+
+)
+
+--- FIN DE PETICIÓN ---
+
+[2025-09-13 20:22:15] --- INICIO DE PETICIÓN ---
+DATOS RECIBIDOS (JSON): {"action":"update_invoice_status","factura_id":"395","estado":"Pagada"}
+SESIÓN ACTUAL: Array
+(
+    [loggedin] => 1
+    [user_id] => 123456
+    [username] => Super Admin
+    [role] => Usuario de Gestión
+    [allowed_modules] => Array
+        (
+            [0] => usuarios
+            [1] => planes
+            [2] => facturacion
+            [3] => ingresos-gastos
+            [4] => inventario
+            [5] => queues
+            [6] => monitoreo
+        )
+
+)
+
+--- FIN DE PETICIÓN ---
+
+[2025-09-13 20:22:45] --- INICIO DE PETICIÓN ---
+DATOS RECIBIDOS (JSON): {"action":"update_invoice_status","factura_id":"399","estado":"Pagada"}
+SESIÓN ACTUAL: Array
+(
+    [loggedin] => 1
+    [user_id] => 45855
+    [username] => Facturacion
+    [role] => Usuario de Gestión
+    [allowed_modules] => Array
+        (
+            [0] => facturacion
+        )
+
+)
+
+--- FIN DE PETICIÓN ---
+
+[2025-09-13 20:22:51] --- INICIO DE PETICIÓN ---
+DATOS RECIBIDOS (JSON): {"action":"update_invoice_status","factura_id":"401","estado":"Anulada"}
+SESIÓN ACTUAL: Array
+(
+    [loggedin] => 1
+    [user_id] => 45855
+    [username] => Facturacion
+    [role] => Usuario de Gestión
+    [allowed_modules] => Array
+        (
+            [0] => facturacion
+        )
+
+)
+
+--- FIN DE PETICIÓN ---
+
+[2025-09-13 20:23:50] --- INICIO DE PETICIÓN ---
+DATOS RECIBIDOS (JSON): {"action":"update_invoice_status","factura_id":"402","estado":"Pagada"}
+SESIÓN ACTUAL: Array
+(
+    [loggedin] => 1
+    [user_id] => 45855
+    [username] => Facturacion
+    [role] => Usuario de Gestión
+    [allowed_modules] => Array
+        (
+            [0] => facturacion
+        )
+
+)
+
+--- FIN DE PETICIÓN ---
+
+[2025-09-13 20:25:06] --- INICIO DE PETICIÓN ---
+DATOS RECIBIDOS (JSON): {"action":"update_invoice_status","factura_id":"350","estado":"Pagada"}
+SESIÓN ACTUAL: Array
+(
+    [loggedin] => 1
+    [user_id] => 45855
+    [username] => Facturacion
+    [role] => Usuario de Gestión
+    [allowed_modules] => Array
+        (
+            [0] => facturacion
+        )
+
+)
+
+--- FIN DE PETICIÓN ---
+
+[2025-09-13 20:28:47] --- INICIO DE PETICIÓN ---
+DATOS RECIBIDOS (JSON): {"action":"update_invoice_status","factura_id":"404","estado":"Pagada"}
+SESIÓN ACTUAL: Array
+(
+    [loggedin] => 1
+    [user_id] => 27548656
+    [username] => YANIRA INSUASTY
+    [role] => Usuario de Gestión
+    [allowed_modules] => Array
+        (
+            [0] => facturacion
+        )
+
+)
+
+--- FIN DE PETICIÓN ---
+
+[2025-09-16 03:16:29] --- INICIO DE PETICIÓN ---
+DATOS RECIBIDOS (JSON): {"action":"update_invoice_status","factura_id":"14","estado":"Pagada"}
+SESIÓN ACTUAL: Array
+(
+    [loggedin] => 1
+    [user_id] => 123456
+    [username] => Super Admin
+    [role] => Usuario de Gestión
+    [allowed_modules] => Array
+        (
+            [0] => usuarios
+            [1] => planes
+            [2] => facturacion
+            [3] => ingresos-gastos
+            [4] => inventario
+            [5] => queues
+            [6] => monitoreo
+        )
+
+)
+
+--- FIN DE PETICIÓN ---
+
+[2025-09-16 21:26:35] --- INICIO DE PETICIÓN ---
+DATOS RECIBIDOS (JSON): {"action":"update_invoice_status","factura_id":"62","estado":"Anulada"}
+SESIÓN ACTUAL: Array
+(
+    [loggedin] => 1
+    [user_id] => 123456
+    [username] => Super Admin
+    [role] => Usuario de Gestión
+    [allowed_modules] => Array
+        (
+            [0] => usuarios
+            [1] => planes
+            [2] => facturacion
+            [3] => recaudo
+            [4] => ingresos-gastos
+            [5] => inventario
+            [6] => queues
+            [7] => monitoreo
+        )
+
+)
+
+--- FIN DE PETICIÓN ---
+
+[2025-09-17 01:04:15] --- INICIO DE PETICIÓN ---
+DATOS RECIBIDOS (JSON): {"action":"update_invoice_status","factura_id":"62","estado":"Anulada"}
+SESIÓN ACTUAL: Array
+(
+    [loggedin] => 1
+    [user_id] => 1087960571
+    [username] => Administrador WEB
+    [role] => Usuario de Gestión
+    [allowed_modules] => Array
+        (
+            [0] => usuarios
+            [1] => planes
+            [2] => facturacion
+            [3] => recaudo
+            [4] => ingresos-gastos
+            [5] => inventario
+        )
+
+)
+
+--- FIN DE PETICIÓN ---
+
+[2025-09-17 03:03:06] --- INICIO DE PETICIÓN ---
+DATOS RECIBIDOS (JSON): {"action":"update_invoice_status","factura_id":"48","estado":"Pagada"}
+SESIÓN ACTUAL: Array
+(
+    [loggedin] => 1
+    [user_id] => 123456
+    [username] => Super Admin
+    [role] => Usuario de Gestión
+    [allowed_modules] => Array
+        (
+            [0] => usuarios
+            [1] => planes
+            [2] => facturacion
+            [3] => recaudo
+            [4] => ingresos-gastos
+            [5] => inventario
+            [6] => queues
+            [7] => monitoreo
+        )
+
+)
+
+--- FIN DE PETICIÓN ---
+
+[2025-11-02 03:3111:04] --- INICIO DE PETICIÓN ---
+DATOS RECIBIDOS (JSON): {"action":"update_invoice_status","factura_id":60,"estado":"Anulada"}
+SESIÓN ACTUAL: Array
+(
+    [loggedin] => 1
+    [user_id] => 45855
+    [username] => Facturacion
+    [role] => Usuario de Gestión
+    [allowed_modules] => Array
+        (
+            [0] => facturacion
+            [1] => recaudo
+        )
+
+)
+
+--- FIN DE PETICIÓN ---
+
+[2025-11-02 03:3211:21] --- INICIO DE PETICIÓN ---
+DATOS RECIBIDOS (JSON): {"action":"update_invoice_status","factura_id":58,"estado":"Anulada"}
+SESIÓN ACTUAL: Array
+(
+    [loggedin] => 1
+    [user_id] => 45855
+    [username] => Facturacion
+    [role] => Usuario de Gestión
+    [allowed_modules] => Array
+        (
+            [0] => facturacion
+            [1] => recaudo
+        )
+
+)
+
+--- FIN DE PETICIÓN ---
+
+[2025-11-02 04:1311:30] --- INICIO DE PETICIÓN ---
+DATOS RECIBIDOS (JSON): {"action":"update_invoice_status","factura_id":55,"estado":"Anulada"}
+SESIÓN ACTUAL: Array
+(
+    [loggedin] => 1
+    [user_id] => 123456
+    [username] => Super Admin
+    [role] => Usuario de Gestión
+    [allowed_modules] => Array
+        (
+            [0] => usuarios
+            [1] => planes
+            [2] => facturacion
+            [3] => recaudo
+            [4] => ingresos-gastos
+            [5] => inventario
+            [6] => queues
+            [7] => monitoreo
+        )
+
+)
+
+--- FIN DE PETICIÓN ---
+
+[2025-11-02 04:1511:49] --- INICIO DE PETICIÓN ---
+DATOS RECIBIDOS (JSON): {"action":"update_invoice_status","factura_id":54,"estado":"Anulada"}
+SESIÓN ACTUAL: Array
+(
+    [loggedin] => 1
+    [user_id] => 123456
+    [username] => Super Admin
+    [role] => Usuario de Gestión
+    [allowed_modules] => Array
+        (
+            [0] => usuarios
+            [1] => planes
+            [2] => facturacion
+            [3] => recaudo
+            [4] => ingresos-gastos
+            [5] => inventario
+            [6] => queues
+            [7] => monitoreo
+        )
+
+)
+
+--- FIN DE PETICIÓN ---
+

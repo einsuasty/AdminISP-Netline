@@ -1,0 +1,1020 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Administración - NetLine</title>
+    <link rel="icon" href="img/icono2.ico" type="image/x-icon">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/Styles_panel.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.23/jspdf.plugin.autotable.min.js"></script>
+</head>
+
+
+<div id="pdfActionModal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <h3 class="text-xl font-semibold mb-4 text-gray-800">Recibo Generado</h3>
+            <p class="text-gray-600 mb-6">El recibo de pago ha sido generado. ¿Qué deseas hacer?</p>
+            <div class="flex justify-around space-x-4">
+                <button type="button" id="imprimirReciboBtn" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md">
+                    Imprimir
+                </button>
+                <button type="button" id="descargarReciboBtn" class="w-full bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-lg shadow-md">
+                    Descargar
+                </button>
+            </div>
+            <button type="button" id="cancelPdfActionBtn" class="w-full bg-gray-400 hover:bg-gray-500 text-white font-semibold py-2 px-4 rounded-lg shadow-md mt-4">
+                Cancelar
+            </button>
+        </div>
+</div>
+
+
+<body class="flex h-screen overflow-hidden">
+
+    <aside class="w-64 bg-gradient-to-br from-blue-700 to-blue-900 text-white flex flex-col shadow-lg">
+        <div class="p-6 text-center border-b border-blue-800">
+            <img src="img/AdminISP.png" alt="Logo NetLine" id="logo">
+        </div>
+        <nav class="flex-1 px-4 py-6 space-y-2">
+            <a href="#" class="sidebar-link block py-2 px-4 rounded-lg text-lg font-medium hover:bg-blue-600 transition duration-200" data-module="usuarios">
+                Módulo de Usuarios
+            </a>
+            <a href="#" class="sidebar-link block py-2 px-4 rounded-lg text-lg font-medium hover:bg-blue-600 transition duration-200" data-module="planes">
+                Módulo de Planes
+            </a>
+            <a href="#" class="sidebar-link block py-2 px-4 rounded-lg text-lg font-medium hover:bg-blue-600 transition duration-200" data-module="facturacion">
+                Módulo de Facturación
+            </a>
+            <a href="#" class="sidebar-link block py-2 px-4 rounded-lg text-lg font-medium hover:bg-blue-600 transition duration-200" data-module="recaudo">
+                Módulo de Recaudo
+            </a>
+            <a href="#" class="sidebar-link block py-2 px-4 rounded-lg text-lg font-medium hover:bg-blue-600 transition duration-200" data-module="ingresos-gastos">
+                Módulo de Ingresos y Gastos
+            </a>
+            <a href="#" class="sidebar-link block py-2 px-4 rounded-lg text-lg font-medium hover:bg-blue-600 transition duration-200" data-module="inventario">
+                Módulo de Inventario
+            </a>
+            <a href="mikrotik-queues/queues.php" class="sidebar-link external-link block py-2 px-4 rounded-lg text-lg font-medium hover:bg-blue-600 transition duration-200" data-module="queues">
+                Módulo de Queues
+            </a>
+            <a href="monitor.php" class="sidebar-link external-link block py-2 px-4 rounded-lg text-lg font-medium hover:bg-blue-600 transition duration-200" data-module="monitoreo">
+                Módulo de Monitoreo
+            </a>
+            </nav>
+        <div class="p-4 border-t border-blue-800">
+            <button onclick="window.location.href='logout.php'" class="w-full bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition duration-200">
+             Cerrar Sesión
+            </button>
+        </div>
+    </aside>
+
+    <div class="flex-1 flex flex-col overflow-hidden">
+        <header class="bg-white shadow-md p-4 flex justify-between items-center z-10">
+            <h1 class="text-2xl font-semibold text-gray-800">Panel de Administración</h1>
+            <div class="flex items-center space-x-4">
+                <span class="text-gray-700 font-medium" id="welcomeMessage">Bienvenido, Admin</span>
+                <div class="relative">
+                    <button id="userMenuButton">
+                        <img src="https://placehold.co/40x40/cccccc/ffffff?text=U" alt="User Avatar" class="rounded-full border-2 border-blue-500 cursor-pointer">
+                    </button>
+                    <div id="userMenuDropdown" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-20">
+                        <a href="#" id="openChangePasswordModalBtn" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Cambiar Contraseña</a>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <main class="flex-1 overflow-y-auto p-6 bg-gray-100">
+
+            <div id="empty-space-module" class="active">
+                <img src="img/Logo_Animado.gif" alt="Logo animado de NetLine">
+            </div>
+
+            <section id="usuarios-module" class="module-content bg-white p-8 rounded-lg shadow-md mb-6">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-3xl font-bold text-gray-800">Gestión de Usuarios y Clientes</h2>
+                    <div class="flex items-center space-x-2">
+                        <input type="text" id="userSearchInput" placeholder="Buscar por ID o Nombre" class="mt-1 block w-64 border border-gray-300 rounded-md shadow-sm p-2">
+                        <button id="searchUserBtn" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition duration-200">
+                            Buscar
+                        </button>
+                        <button id="clearUserSearchBtn" class="bg-gray-400 hover:bg-gray-500 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition duration-200">
+                            Limpiar
+                        </button>
+                    </div>
+                    <button id="addUserBtn" class="bg-green-500 hover:bg-green-700 text-white font-semibold py-2 px-5 rounded-lg shadow-md transition duration-200">
+                        + Agregar Usuario
+                    </button>
+                </div>
+                
+                <div id="userFormContainer" class="hidden bg-gray-50 p-6 rounded-lg shadow-inner mb-6">
+                    <h3 class="text-xl font-semibold mb-4" id="userFormTitle">Agregar Nuevo Usuario</h3>
+                    <form id="userForm" class="space-y-4">
+                        <div>
+                            <label for="userRoleSelect" class="block text-sm font-medium text-gray-700">Rol:</label>
+                            <select id="userRoleSelect" name="rol_id" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" required>
+                                <option value="">Seleccione un rol</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="userId" class="block text-sm font-medium text-gray-700">ID de Usuario :</label>
+                            <input type="text" id="userId" name="usuario_id" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" placeholder="Ingresa tu numero de Idenficacion">
+                        </div>
+                        <input type="hidden" id="originalUserId">
+                        <div>
+                            <label for="userName" class="block text-sm font-medium text-gray-700">Nombre:</label>
+                            <input type="text" id="userName" name="nombre" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" required>
+                        </div>
+                        <div>
+                            <label for="userEmail" class="block text-sm font-medium text-gray-700">Correo:</label>
+                            <input type="email" id="userEmail" name="correo" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" required>
+                        </div>
+                        <div>
+                            <label for="userPhone" class="block text-sm font-medium text-gray-700">Número de Celular:</label>
+                            <input type="tel" id="userPhone" name="celular" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" placeholder="Ej: 3001234567">
+                        </div>
+                        <div>
+                            <label for="userAddress" class="block text-sm font-medium text-gray-700">Dirección:</label>
+                            <input type="text" id="userAddress" name="direccion" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" placeholder="Ej: Calle 1 # 2-34">
+                        </div>
+                        <div id="passwordFields">
+                            <div>
+                                <label for="userPassword" class="block text-sm font-medium text-gray-700">Contraseña:</label>
+                                <input type="password" id="userPassword" name="new_password" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" placeholder="Ingresa una nueva contraseña" minlength="6">
+                            </div>
+                            <div>
+                                <label for="userConfirmPassword" class="block text-sm font-medium text-gray-700">Confirmar Contraseña:</label>
+                                <input type="password" id="userConfirmPassword" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" placeholder="Confirma la nueva contraseña" minlength="6">
+                            </div>
+                        </div>
+                        <div id="modulePermissionsSection" class="hidden border-t pt-4 mt-4 border-gray-200">
+                            <h4 class="text-lg font-semibold mb-3">Permisos de Módulos:</h4>
+                            <div id="moduleCheckboxes" class="grid grid-cols-2 gap-2">
+                            </div>
+                        </div>
+                        <div id="manageUserPlansSection" class="hidden border-t pt-4 mt-4 border-gray-200">
+                            <h4 class="text-lg font-semibold mb-3">Planes Asignados</h4>
+                            <div id="assignedPlansList" class="space-y-2 mb-4">
+                                <p class="text-gray-500">No hay planes asignados.</p>
+                            </div>
+                            <div class="flex items-end space-x-2">
+                                <div class="flex-1">
+                                    <label for="assignPlanSelect" class="block text-sm font-medium text-gray-700">Asignar Nuevo Plan:</label>
+                                    <select id="assignPlanSelect" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2">
+                                        <option value="">Seleccione un plan</option>
+                                    </select>
+                                </div>
+                                <button type="button" id="assignPlanBtn" class="bg-green-400 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition duration-200">Asignar</button>
+                            </div>
+                        </div>
+                        <div class="flex space-x-4">
+                            <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition duration-200">Guardar Usuario</button>
+                            <button type="button" id="cancelUserBtn" class="bg-gray-400 hover:bg-gray-500 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition duration-200">Cancelar</button>
+                        </div>
+                    </form>
+                </div>
+                
+                <div class="mt-8">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-2xl font-bold text-gray-800">Usuarios de Gestión</h3>
+                        <button id="exportGestionUsersExcelBtn" class="bg-green-400 hover:bg-green-500 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition duration-200 flex items-center">
+                            <img src="img/Logo_Excel.png" alt="Excel Icon" class="w-6 h-6">
+                        </button>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table id="gestionUsersTable" class="min-w-full bg-white border border-gray-200 rounded-lg">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="py-3 px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
+                                    <th class="py-3 px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nombre</th>
+                                    <th class="py-3 px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Correo</th>
+                                    <th class="py-3 px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Celular</th>
+                                    <th class="py-3 px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Dirección</th>
+                                    <th class="py-3 px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Rol</th>
+                                    <th class="py-3 px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Permisos de Módulos</th>
+                                    <th class="py-3 px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="gestionUsersTableBody" class="divide-y divide-gray-200">
+                                </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="mt-8">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-2xl font-bold text-gray-800">Clientes</h3>
+                        <button id="exportClientesExcelBtn" class="bg-green-400 hover:bg-green-500 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition duration-200 flex items-center">
+                            <img src="img/Logo_Excel.png" alt="Excel Icon" class="w-8 h-8">
+                        </button>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table id="clientesTable" class="min-w-full bg-white border border-gray-200 rounded-lg">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="py-3 px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
+                                    <th class="py-3 px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nombre</th>
+                                    <th class="py-3 px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Correo</th>
+                                    <th class="py-3 px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Celular</th>
+                                    <th class="py-3 px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Dirección</th>
+                                    <th class="py-3 px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Rol</th>
+                                    <th class="py-3 px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Plan Principal Asignado</th>
+                                    <th class="py-3 px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="clientesTableBody" class="divide-y divide-gray-200">
+                                </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+
+            <section id="planes-module" class="module-content bg-white p-8 rounded-lg shadow-md mb-6">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-3xl font-bold text-gray-800">Gestión de Planes</h2>
+                    <div class="flex items-center space-x-2">
+                        <button id="exportPlanesExcelBtn" class="bg-green-400 hover:bg-green-500 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition duration-200 flex items-center">
+                            <img src="img/Logo_Excel.png" alt="Excel Icon" class="w-8 h-8">
+                        </button>
+                        <button id="addPlanBtn" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-5 rounded-lg shadow-md transition duration-200">
+                            + Agregar Plan
+                        </button>
+                    </div>
+                </div>
+                <div id="planFormContainer" class="hidden bg-gray-50 p-6 rounded-lg shadow-inner mb-6">
+                    <h3 class="text-xl font-semibold mb-4" id="planFormTitle">Agregar Nuevo Plan</h3>
+                    <form id="planForm" class="space-y-4">
+                        <input type="hidden" id="planId">
+                        <div>
+                            <label for="planName" class="block text-sm font-medium text-gray-700">Nombre del Plan:</label>
+                            <input type="text" id="planName" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" required>
+                        </div>
+                        <div>
+                            <label for="planSpeed" class="block text-sm font-medium text-gray-700">Velocidad:</label>
+                            <input type="text" id="planSpeed" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" required>
+                        </div>
+                        <div>
+                            <label for="planPrice" class="block text-sm font-medium text-gray-700">Valor:</label>
+                            <input type="number" step="0.01" id="planPrice" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" required>
+                        </div>
+                        <div class="flex space-x-4">
+                            <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition duration-200">Guardar Plan</button>
+                            <button type="button" id="cancelPlanBtn" class="bg-gray-400 hover:bg-gray-500 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition duration-200">Cancelar</button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="overflow-x-auto">
+                    <table id="plansTable" class="min-w-full bg-white border border-gray-200 rounded-lg">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="py-3 px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
+                                <th class="py-3 px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nombre del Plan</th>
+                                <th class="py-3 px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Velocidad</th>
+                                <th class="py-3 px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Valor</th>
+                                <th class="py-3 px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="plansTableBody" class="divide-y divide-gray-200">
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+            
+
+            <section id="facturacion-module" class="module-content bg-white p-8 rounded-lg shadow-md mb-6">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-3xl font-bold text-gray-800">Generar y Gestionar Facturas</h2>
+                    <div class="flex items-center space-x-2">
+                        <button id="exportFacturacionExcelBtn" class="bg-green-400 hover:bg-green-500 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition duration-200 flex items-center">
+                            <img src="img/Logo_Excel.png" alt="Excel Icon" class="w-8 h-8">
+                        </button>
+                        <button type="button" id="generateBulkInvoicesBtn" class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 px-5 rounded-lg shadow-md transition duration-200">
+                            Generar Facturas Masivas
+                        </button>
+                    </div>
+                </div>
+
+                <div class="mb-6">
+                    <h3 class="text-2xl font-bold text-gray-800 mb-4">Resumen de Facturas</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+                        
+                        <div class="bg-white p-4 rounded-lg shadow-md border-l-4 border-blue-500">
+                            <p class="text-lg font-semibold text-gray-700">Facturas Generadas:</p>
+                            <p class="text-2xl font-bold text-blue-600" id="generatedInvoicesCount">0</p>
+                            <p class="text-lg text-gray-600">Suma Total: <span class="font-bold" id="generatedInvoicesSum">$0.00</span></p>
+                        </div>
+                        
+                        <div class="bg-white p-4 rounded-lg shadow-md border-l-4 border-green-500">
+                            <p class="text-lg font-semibold text-gray-700">Facturas Pagadas:</p>
+                            <p class="text-2xl font-bold text-green-600" id="paidInvoicesCount">0</p>
+                            <p class="text-lg text-gray-600">Suma Total: <span class="font-bold" id="paidInvoicesSum">$0.00</span></p>
+                        </div>
+                        
+                        <div class="bg-white p-4 rounded-lg shadow-md border-l-4 border-yellow-500">
+                            <p class="text-lg font-semibold text-gray-700">Facturas Pendientes:</p>
+                            <p class="text-2xl font-bold text-yellow-600" id="pendingInvoicesCount">0</p>
+                            <p class="text-lg text-gray-600">Suma Total: <span class="font-bold" id="pendingInvoicesSum">$0.00</span></p>
+                        </div>
+                        
+                        <div class="bg-white p-4 rounded-lg shadow-md border-l-4 border-red-500">
+                            <p class="text-lg font-semibold text-gray-700">Facturas Anuladas:</p>
+                            <p class="text-2xl font-bold text-red-600" id="annulledInvoicesCount">0</p>
+                            <p class="text-lg text-gray-600">Suma Total: <span class="font-bold" id="annulledInvoicesSum">$0.00</span></p>
+                        </div>
+                        
+                    </div>
+                    
+                    <div class="bg-gray-50 p-6 rounded-lg shadow-inner mb-6">
+                        <h3 class="text-xl font-semibold mb-4">Generar Factura Individual</h3>
+                        <form id="facturacionForm" class="space-y-4">
+                            <div>
+                                <label for="facturacionModeSelect" class="block text-sm font-medium text-gray-700">Tipo de Facturación:</label>
+                                <select id="facturacionModeSelect" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2">
+                                    <option value="" disabled selected>-- Seleccione un tipo de facturación --</option>
+                                    <option value="individual">Facturar Individual (por Plan)</option>
+                                    <option value="concepto">Facturar por Otro Concepto</option>
+                                </select>
+                            </div>
+
+                            <div id="facturaIndividualContainer" class="hidden space-y-4 border-t pt-4">
+                                <div>
+                                    <label for="facturaUserId" class="block text-sm font-medium text-gray-700">ID del Usuario:</label>
+                                    <div class="flex">
+                                        <input type="text" id="facturaUserId" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 mr-2" placeholder="Ingrese ID del usuario">
+                                        <button type="button" id="buscarUsuarioBtn" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition duration-200">Buscar Usuario</button>
+                                    </div>
+                                </div>
+                                <div id="userInfoDisplay" class="hidden grid grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700">Nombre del Cliente:</label>
+                                        <p id="facturaClientName" class="mt-1 p-2 bg-gray-100 border border-gray-300 rounded-md"></p>
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700">Correo del Cliente:</label>
+                                        <p id="facturaClientEmail" class="mt-1 p-2 bg-gray-100 border border-gray-300 rounded-md"></p>
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700">Planes Asignados:</label>
+                                        <p id="facturaClientAssignedPlans" class="mt-1 p-2 bg-gray-100 border border-gray-300 rounded-md"></p>
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700">Precio de Plan Principal:</label>
+                                        <p id="facturaClientPlanPrice" class="mt-1 p-2 bg-gray-100 border border-gray-300 rounded-md"></p>
+                                    </div>
+                                </div>
+                                <div id="planSelectionContainer" class="hidden">
+                                    <div>
+                                        <label for="facturaPlanSelect" class="block text-sm font-medium text-gray-700">Seleccionar Plan para Facturar:</label>
+                                        <select id="facturaPlanSelect" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2">
+                                            <option value="">Seleccione un plan</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div id="facturaConceptoContainer" class="hidden space-y-4 border-t pt-4">
+                                <div>
+                                    <label for="facturaUserIdConcepto" class="block text-sm font-medium text-gray-700">ID del Usuario a Facturar:</label>
+                                    <div class="flex">
+                                        <input type="text" id="facturaUserIdConcepto" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 mr-2" placeholder="Buscar ID del usuario">
+                                        <button type="button" id="buscarUsuarioBtnConcepto" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md">Buscar</button>
+                                    </div>
+                                    <p id="conceptoUserName" class="mt-2 text-sm text-gray-600 font-semibold"></p>
+                                </div>
+                                <div>
+                                    <label for="facturaConceptoInput" class="block text-sm font-medium text-gray-700">Concepto de la Factura:</label>
+                                    <input type="text" id="facturaConceptoInput" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" placeholder="Ej: Costo de instalación, multa, etc.">
+                                </div>
+                            </div>
+
+                            <div id="montoYBotonesContainer" class="hidden space-y-4">
+                                <div>
+                                    <label for="facturaMonto" class="block text-sm font-medium text-gray-700">Monto a Facturar:</label>
+                                    <input type="number" step="0.01" id="facturaMonto" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" required>
+                                </div>
+                                <div class="flex space-x-4">
+                                    <button type="submit" id="generarFacturaBtn" class="bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition duration-200">Generar Factura</button>
+                                    <button type="button" id="cancelarFacturaBtn" class="bg-gray-400 hover:bg-gray-500 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition duration-200">Cancelar</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="flex justify-between items-center mb-4 mt-6">
+                        <h3 class="text-2xl font-bold text-gray-800">Detalle de Facturas (Todas)</h3>
+                        <div class="flex items-center space-x-2">
+                            <input type="text" id="invoiceDetailSearchIdInput" placeholder="ID Factura/Usuario" class="mt-1 block w-40 border border-gray-300 rounded-md shadow-sm p-2 text-sm">
+                            <input type="date" id="invoiceDetailStartDateInput" class="mt-1 block w-40 border border-gray-300 rounded-md shadow-sm p-2 text-sm">
+                            <input type="date" id="invoiceDetailEndDateInput" class="mt-1 block w-40 border border-gray-300 rounded-md shadow-sm p-2 text-sm">
+                            <button id="searchInvoiceDetailsBtn" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition duration-200 text-sm">
+                                Filtrar
+                            </button>
+                            <button id="clearInvoiceDetailsSearchBtn" class="bg-gray-400 hover:bg-gray-500 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition duration-200 text-sm">
+                                Limpiar
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="overflow-x-auto mt-6">
+                        <table id="facturasTable" class="min-w-full bg-white border border-gray-200 rounded-lg">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="py-3 px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID Factura</th>
+                                    <th class="py-3 px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID Usuario</th>
+                                    <th class="py-3 px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Usuario</th>
+                                    <th class="py-3 px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Plan / Concepto</th>
+                                    <th class="py-3 px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Monto</th>
+                                    <th class="py-3 px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Fecha</th>
+                                    <th class="py-3 px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Estado</th>
+                                    <th class="py-3 px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Acciones</th>
+                                    </tr>
+                            </thead>
+                            <tbody id="facturasTableBody" class="divide-y divide-gray-200">
+                                <tr><td colspan="8" class="py-4 px-6 text-center text-gray-500">Cargando facturas...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+                        
+
+            <section id="recaudo-module" class="module-content bg-white p-8 rounded-lg shadow-md mb-6">
+                <div class="flex justify-between items-center mb-6 flex-wrap gap-4">
+                    <h2 class="text-3xl font-bold text-gray-800">Módulo de Recaudo</h2>
+                    <div class="flex items-center space-x-2 flex-wrap gap-2">
+                        <button id="exportRecaudoExcelBtn" class="bg-green-400 hover:bg-green-500 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition duration-200 flex items-center">
+                            <img src="img/Logo_Excel.png" alt="Excel Icon" class="w-8 h-8">
+                        </button>
+                        <button type="button" id="viewRecaudoPaidInvoicesBtn" class="bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-5 rounded-lg shadow-md transition duration-200">
+                            Ver Pagadas / Anuladas
+                        </div>
+                </div>
+
+                <div class="mb-6">
+                    <h3 class="text-2xl font-bold text-gray-800 mb-4">Resumen de Facturas</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                        <div class="bg-white p-4 rounded-lg shadow-md border-l-4 border-green-500">
+                            <p class="text-lg font-semibold text-gray-700">Facturas Pagadas:</p>
+                            <p class="text-2xl font-bold text-green-600" id="recaudoPaidInvoicesCount">0</p>
+                            <p class="text-lg text-gray-600">Suma Total: <span class="font-bold" id="recaudoPaidInvoicesSum">$0.00</span></p>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg shadow-md border-l-4 border-yellow-500">
+                            <p class="text-lg font-semibold text-gray-700">Facturas Pendientes:</p>
+                            <p class="text-2xl font-bold text-yellow-600" id="recaudoPendingInvoicesCount">0</p>
+                            <p class="text-lg text-gray-600">Suma Total: <span class="font-bold" id="recaudoPendingInvoicesSum">$0.00</span></p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex justify-between items-center mb-4 mt-6">
+                        <h3 class="text-2xl font-bold text-gray-800">Facturas Pendientes de Recaudo</h3>
+                        <div class="flex items-center space-x-2 flex-wrap gap-2">
+                            <input type="text" id="recaudoDetailSearchIdInput" placeholder="ID Factura/Usuario/Nombre" class="mt-1 block w-48 border border-gray-300 rounded-md shadow-sm p-2 text-sm">
+                            <input type="date" id="recaudoDetailStartDateInput" class="mt-1 block w-40 border border-gray-300 rounded-md shadow-sm p-2 text-sm">
+                            <input type="date" id="recaudoDetailEndDateInput" class="mt-1 block w-40 border border-gray-300 rounded-md shadow-sm p-2 text-sm">
+                            <button id="searchRecaudoDetailsBtn" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition duration-200 text-sm">
+                                Filtrar
+                            </button>
+                            <button id="clearRecaudoDetailsSearchBtn" class="bg-gray-400 hover:bg-gray-500 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition duration-200 text-sm">
+                                Limpiar
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="overflow-x-auto mt-6">
+                        <table id="recaudoFacturasTable" class="min-w-full bg-white border border-gray-200 rounded-lg">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="py-3 px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID Factura</th>
+                                    <th class="py-3 px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID Usuario</th>
+                                    <th class="py-3 px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Usuario</th>
+                                    <th class="py-3 px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Plan / Concepto</th>
+                                    <th class="py-3 px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Monto</th>
+                                    <th class="py-3 px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Fecha</th>
+                                    <th class="py-3 px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Estado</th>
+                                    <th class="py-3 px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="recaudoFacturasTableBody" class="divide-y divide-gray-200">
+                                <tr><td colspan="9" class="py-4 px-6 text-center text-gray-500">Cargando facturas...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <section id="ingresos-gastos-module" class="module-content bg-white p-8 rounded-lg shadow-md mb-6">
+                 <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-3xl font-bold text-gray-800">Gestión de Ingresos y Gastos</h2>
+                    <div class="flex items-center space-x-2">
+                        <button id="exportIngresos-gastosExcelBtn" class="bg-green-400 hover:bg-green-500 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition duration-200 flex items-center">
+                            <img src="img/Logo_Excel.png" alt="Excel Icon" class="w-8 h-8">
+                        </button>
+                    </div>
+                </div>
+
+                <div class="mb-8">
+                    <h3 class="text-2xl font-bold text-gray-800 mb-4">Estado de Resultados (Ingresos - Gastos)</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                        <div class="bg-white p-4 rounded-lg shadow-md border-l-4 border-green-500">
+                            <p class="text-lg font-semibold text-gray-700">Ingresos Totales:</p>
+                            <p class="text-2xl font-bold text-green-600" id="totalIncome">$0.00</p>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg shadow-md border-l-4 border-red-500">
+                            <p class="text-lg font-semibold text-gray-700">Gastos Totales:</p>
+                            <p class="text-2xl font-bold text-red-600" id="totalExpenses">$0.00</p>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg shadow-md border-l-4 border-blue-500">
+                            <p class="text-lg font-semibold text-gray-700">Ganancia/Pérdida:</p>
+                            <p class="text-2xl font-bold text-blue-600" id="profitLoss">$0.00</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <label for="profitLossStartDate" class="text-sm font-medium text-gray-700">Desde:</label>
+                        <input type="date" id="profitLossStartDate" class="mt-1 block border border-gray-300 rounded-md shadow-sm p-2 text-sm">
+                        <label for="profitLossEndDate" class="text-sm font-medium text-gray-700">Hasta:</label>
+                        <input type="date" id="profitLossEndDate" class="mt-1 block border border-gray-300 rounded-md shadow-sm p-2 text-sm">
+                        <button id="filterProfitLossBtn" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition duration-200 text-sm">
+                            Filtrar
+                        </button>
+                        <button id="clearProfitLossFilterBtn" class="bg-gray-400 hover:bg-gray-500 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition duration-200 text-sm">
+                            Limpiar
+                        </button>
+                    </div>
+                </div>
+
+                <div class="bg-gray-50 p-6 rounded-lg shadow-inner mb-6">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-xl font-semibold">Gastos Mensuales (Recurrentes)</h3>
+                        <button id="addRecurringExpenseBtn" class="bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition duration-200">
+                            + Añadir Gasto a la Lista
+                        </button>
+                    </div>
+
+                    <div id="recurringExpenseFormContainer" class="hidden bg-white p-6 rounded-lg shadow-md mb-6">
+                        <h4 class="text-lg font-semibold mb-4" id="recurringExpenseFormTitle">Añadir Nuevo Gasto a la Lista</h4>
+                        <form id="recurringExpenseForm" class="space-y-4">
+                            <input type="hidden" id="recurringExpenseId">
+                            <div>
+                                <label for="recurringExpenseCategory" class="block text-sm font-medium text-gray-700">Categoría:</label>
+                                <select id="recurringExpenseCategory" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" required>
+                                    <option value="">Seleccione o añada una categoría</option>
+                                </select>
+                            </div>
+                            <div class="flex items-end space-x-2">
+                                <input type="text" id="newCategoryInput" placeholder="Nueva Categoría" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 hidden">
+                                <button type="button" id="addCategoryBtn" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition duration-200 hidden">Añadir Categoría</button>
+                                <button type="button" id="cancelAddCategoryBtn" class="bg-gray-400 hover:bg-gray-500 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition duration-200 hidden">Cancelar</button>
+                            </div>
+                            <div>
+                                <label for="recurringExpenseDescription" class="block text-sm font-medium text-gray-700">Descripción:</label>
+                                <input type="text" id="recurringExpenseDescription" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" required>
+                            </div>
+                            <div>
+                                <label for="recurringExpenseAmount" class="block text-sm font-medium text-gray-700">Monto:</label>
+                                <input type="number" step="0.01" id="recurringExpenseAmount" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" required>
+                            </div>
+                            <div class="flex space-x-4">
+                                <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition duration-200">Guardar en Lista</button>
+                                <button type="button" id="cancelRecurringExpenseBtn" class="bg-gray-400 hover:bg-gray-500 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition duration-200">Cancelar</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="overflow-x-auto mt-4">
+                         <div id="recurringExpensesActions" class="flex items-end space-x-2 mb-4 p-2 bg-blue-50 rounded-lg">
+                            <div class="flex-grow">
+                               <label for="bulkRegisterDate" class="text-sm font-medium text-gray-700">Fecha para registrar los gastos seleccionados:</label>
+                               <input type="date" id="bulkRegisterDate" class="mt-1 block w-full md:w-auto border border-gray-300 rounded-md shadow-sm p-2" required>
+                            </div>
+                            <button id="registerSelectedExpensesBtn" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-5 rounded-lg shadow-md transition duration-200">
+                                Registrar Gastos Seleccionados
+                            </button>
+                        </div>
+                        <table id="recurringExpensesTable" class="min-w-full bg-white border border-gray-200 rounded-lg">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="py-3 px-4 text-left"><input type="checkbox" id="selectAllRecurringExpenses"></th>
+                                    <th class="py-3 px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Categoría</th>
+                                    <th class="py-3 px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Descripción</th>
+                                    <th class="py-3 px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Monto</th>
+                                    <th class="py-3 px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="recurringExpensesTableBody" class="divide-y divide-gray-200">
+                                </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="mt-8">
+                    <h3 class="text-xl font-semibold mb-3">Historial de Gastos Registrados</h3>
+                    <div class="flex items-center space-x-2 mb-4">
+                        <label for="expenseStartDateFilter" class="text-sm font-medium text-gray-700">Desde:</label>
+                        <input type="date" id="expenseStartDateFilter" class="mt-1 block border border-gray-300 rounded-md shadow-sm p-2 text-sm">
+                        <label for="expenseEndDateFilter" class="text-sm font-medium text-gray-700">Hasta:</label>
+                        <input type="date" id="expenseEndDateFilter" class="mt-1 block border border-gray-300 rounded-md shadow-sm p-2 text-sm">
+                        <button id="filterExpensesBtn" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition duration-200 text-sm">
+                            Filtrar Gastos
+                        </button>
+                        <button id="clearExpensesFilterBtn" class="bg-gray-400 hover:bg-gray-500 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition duration-200 text-sm">
+                            Limpiar Filtro
+                        </button>
+                    </div>
+                    <table id="expensesTable" class="min-w-full bg-white border border-gray-200 rounded-lg">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="py-3 px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
+                                <th class="py-3 px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Categoría</th>
+                                <th class="py-3 px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Descripción</th>
+                                <th class="py-3 px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Monto</th>
+                                <th class="py-3 px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Fecha</th>
+                                <th class="py-3 px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="expensesTableBody" class="divide-y divide-gray-200">
+                            <tr><td colspan="6" class="py-4 px-6 text-center text-gray-500">No hay gastos registrados.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+            
+            <section id="inventario-module" class="module-content bg-white p-8 rounded-lg shadow-md mb-6">
+               <h3 class="text-2xl font-bold text-gray-800 mb-4">Adicionar Activo al Inventario</h3>
+                <div class="bg-gray-50 p-6 rounded-lg shadow-inner mb-8">
+                    <form id="formGestionTiposActivo" class="flex items-end space-x-4">
+                        <div class="flex-grow">
+                            <label for="listaTiposActivo" class="block text-sm font-medium text-gray-700">Tipo de Activo:</label>
+                            <select id="listaTiposActivo" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2">
+                                <option value="">Seleccione un tipo existente</option>
+                                <option value="nuevo">-- Agregar Nuevo Tipo de Activo --</option>
+                            </select>
+                            <input type="text" id="nuevoTipoActivoNombre" placeholder="Escriba el nombre del nuevo activo" class="hidden mt-2 block w-full border border-gray-300 rounded-md shadow-sm p-2">
+                        </div>
+                        <div>
+                            <label for="cantidadActivo" class="block text-sm font-medium text-gray-700">Cantidad:</label>
+                            <div class="flex items-center">
+                                <button type="button" id="decrementoActivoBtn" class="bg-red-500 hover:bg-red-600 text-white font-semibold p-2 rounded-l-md shadow-md h-10 w-10 flex items-center justify-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4" /></svg>
+                                </button>
+                                <input type="number" id="cantidadActivo" value="1" min="1" class="mt-1 block w-24 border-t border-b border-gray-300 shadow-sm p-2 text-center">
+                                <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold p-2 rounded-r-md shadow-md h-10 w-10 flex items-center justify-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" /></svg>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <div>
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-2xl font-bold text-gray-800">Inventario Disponible para Asignar</h3>
+                        <button id="exportDisponiblesExcelBtn" class="bg-green-400 hover:bg-green-500 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition duration-200 flex items-center">
+                            <img src="img/Logo_Excel.png" alt="Excel Icon" class="w-8 h-8">
+                        </button>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table id="tablaAsignacionActivos" class="min-w-full bg-white border border-gray-200 rounded-lg">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="py-3 px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nombre del Activo</th>
+                                    <th class="py-3 px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Cantidad Total</th>
+                                    <th class="py-3 px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Cantidad Disponible</th>
+                                    <th class="py-3 px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="bodyAsignacionActivos" class="divide-y divide-gray-200"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="mt-12">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-2xl font-bold text-gray-800">Activos Asignados</h3>
+                        <div class="flex items-center space-x-2">
+                             <input type="text" id="assetSearchInput" placeholder="Buscar por Nombre, IP, Serial..." class="mt-1 block w-64 border border-gray-300 rounded-md shadow-sm p-2">
+                             <button id="searchAssetBtn" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md">Buscar</button>
+                             <button id="clearAssetSearchBtn" class="bg-gray-400 hover:bg-gray-500 text-white font-semibold py-2 px-4 rounded-lg shadow-md">Limpiar</button>
+                             <button id="exportAsignadosExcelBtn" class="bg-green-400 hover:bg-green-500 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition duration-200 flex items-center">
+                                <img src="img/Logo_Excel.png" alt="Excel Icon" class="w-8 h-8">
+                            </button>
+                        </div>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table id="tablaActivosAsignados" class="min-w-full bg-white border border-gray-200 rounded-lg">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="py-3 px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID Asig.</th>
+                                    <th class="py-3 px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Activo</th>
+                                    <th class="py-3 px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Asignado a</th>
+                                    <th class="py-3 px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Fecha</th>
+                                    <th class="py-3 px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">IP</th>
+                                    <th class="py-3 px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Serial/MAC</th>
+                                    <th class="py-3 px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Notas</th>
+                                    <th class="py-3 px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="bodyActivosAsignados" class="divide-y divide-gray-200"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <div id="changePasswordModal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <h3 class="text-xl font-semibold mb-4 text-gray-800">Cambiar Contraseña</h3>
+            <form id="changePasswordForm">
+                <div class="mb-4">
+                    <label for="newPassword" class="block text-sm font-medium text-gray-700">Nueva Contraseña:</label>
+                    <input type="password" id="newPassword" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" required minlength="6">
+                </div>
+                <div class="mb-4">
+                    <label for="confirmNewPassword" class="block text-sm font-medium text-gray-700">Confirmar Nueva Contraseña:</label>
+                    <input type="password" id="confirmNewPassword" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" required minlength="6">
+                </div>
+                <div class="flex justify-end space-x-4">
+                    <button type="button" id="cancelChangePasswordBtn" class="bg-gray-400 hover:bg-gray-500 text-white font-semibold py-2 px-4 rounded-lg shadow-md">Cancelar</button>
+                    <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <div id="modalAsignarActivo" class="modal-overlay hidden">
+        <div class="modal-content">
+            <h3 class="text-xl font-semibold mb-4" id="tituloModalAsignar">Asignar Activo</h3>
+            <form id="formAsignarActivo">
+                <input type="hidden" id="asignarTipoActivoId">
+                <div class="space-y-4">
+                    <div>
+                        <label for="tipoAsignacion" class="block text-sm font-medium text-gray-700">Tipo de Asignación:</label>
+                        <select id="tipoAsignacion" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" required>
+                            <option value="">-- Seleccione --</option>
+                            <option value="cliente">Cliente</option>
+                            <option value="interno">Empresa (Uso Interno)</option>
+                        </select>
+                    </div>
+                    <div id="contenedorSelectCliente" class="hidden">
+                        <label for="selectCliente" class="block text-sm font-medium text-gray-700">Asignar a Cliente:</label>
+                        <select id="selectCliente" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"></select>
+                    </div>
+                    <div>
+                        <label for="ipActivo" class="block text-sm font-medium text-gray-700">Dirección IP (Opcional):</label>
+                        <input type="text" id="ipActivo" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2">
+                    </div>
+                     <div>
+                        <label for="serialActivo" class="block text-sm font-medium text-gray-700">Número de Serie o MAC (Opcional):</label>
+                        <input type="text" id="serialActivo" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2">
+                    </div>
+                    <div>
+                        <label for="notasAsignacion" class="block text-sm font-medium text-gray-700">Notas (Opcional):</label>
+                        <textarea id="notasAsignacion" rows="3" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"></textarea>
+                    </div>
+                </div>
+                <div class="flex justify-end space-x-4 mt-6">
+                    <button type="button" id="cancelarAsignacionBtn" class="bg-gray-400 hover:bg-gray-500 text-white font-semibold py-2 px-4 rounded-lg shadow-md">Cancelar</button>
+                    <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md">Confirmar Asignación</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <div id="modalEditarAsignacion" class="modal-overlay hidden">
+        <div class="modal-content">
+            <h3 class="text-xl font-semibold mb-4">Editar Asignación de Activo</h3>
+            <form id="formEditarAsignacion">
+                <input type="hidden" id="editAsignacionId">
+                <div class="space-y-4">
+                    <div>
+                        <label for="editTipoActivo" class="block text-sm font-medium text-gray-700">Cambiar Tipo de Activo:</label>
+                        <select id="editTipoActivo" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" required></select>
+                    </div>
+                    <div>
+                        <label for="editTipoAsignacion" class="block text-sm font-medium text-gray-700">Tipo de Asignación:</label>
+                        <select id="editTipoAsignacion" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" required>
+                            <option value="interno">Empresa (Uso Interno)</option>
+                            <option value="cliente">Cliente</option>
+                        </select>
+                    </div>
+                    <div id="contenedorEditSelectCliente" class="hidden">
+                        <label for="editSelectCliente" class="block text-sm font-medium text-gray-700">Asignado a Cliente:</label>
+                        <select id="editSelectCliente" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"></select>
+                    </div>
+                    <div>
+                        <label for="editIpActivo" class="block text-sm font-medium text-gray-700">Dirección IP (Opcional):</label>
+                        <input type="text" id="editIpActivo" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2">
+                    </div>
+                     <div>
+                        <label for="editSerialActivo" class="block text-sm font-medium text-gray-700">Número de Serie o MAC (Opcional):</label>
+                        <input type="text" id="editSerialActivo" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2">
+                    </div>
+                    <div>
+                        <label for="editNotasAsignacion" class="block text-sm font-medium text-gray-700">Notas (Opcional):</label>
+                        <textarea id="editNotasAsignacion" rows="3" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"></textarea>
+                    </div>
+                </div>
+                <div class="flex justify-end space-x-4 mt-6">
+                    <button type="button" id="cancelarEdicionBtn" class="bg-gray-400 hover:bg-gray-500 text-white font-semibold py-2 px-4 rounded-lg shadow-md">Cancelar</button>
+                    <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md">Guardar Cambios</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="statusSelectionModal" class="fixed inset-0 bg-gray-900 bg-opacity-75 z-50 hidden flex items-center justify-center">
+        <div class="bg-white rounded-lg shadow-2xl p-6 w-full max-w-sm">
+            <h3 class="text-xl font-semibold mb-4 text-gray-800">Ver Historial de Facturas</h3>
+            <div class="mb-4">
+                <label for="statusSelect" class="block text-sm font-medium text-gray-700">Seleccione el estado que desea ver:</label>
+                <select id="statusSelect" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2">
+                    <option value="Pagada">Pagadas</option>
+                    <option value="Anulada">Anuladas</option>
+                </select>
+            </div>
+            <div class="flex justify-end space-x-4">
+                <button type="button" id="cancelStatusSelectionBtn" class="bg-gray-400 hover:bg-gray-500 text-white font-semibold py-2 px-4 rounded-lg shadow-md">Cancelar</button>
+                <button type="button" id="confirmStatusSelectionBtn" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md">Ver</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="paidInvoicesModal" class="fixed inset-0 bg-gray-900 bg-opacity-75 z-40 hidden flex items-center justify-center">
+        <div class="bg-white rounded-lg shadow-2xl w-11/12 max-w-screen-2xl h-[90vh] flex flex-col">
+            <header class="p-4 border-b flex justify-between items-center">
+                <h2 id="paidModalTitle" class="text-2xl font-bold text-gray-800">Historial de Facturas</h2>
+                <button id="closePaidModalBtn" class="text-gray-500 hover:text-gray-800 text-3xl">&times;</button>
+            </header>
+            <main class="flex-1 overflow-y-auto p-6">
+                
+                <div class="flex justify-between items-center mb-4">
+                    <div>
+                        <span class="text-sm font-medium text-gray-600">TOTAL:</span>
+                        <span id="paidInvoicesTotalSum" class="text-lg font-bold text-green-600">$0</span>
+                    </div>
+                    <button id="exportPaidExcelBtn" class="bg-green-400 hover:bg-green-500 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition duration-200 flex items-center">
+                    <img src="img/Logo_Excel.png" alt="Excel Icon" class="w-8 h-8">
+                    </button>
+                </div>
+
+                <div class="flex justify-between items-center mb-4 gap-2">
+                    <div class="flex items-center space-x-2 flex-grow">
+                        <input type="text" id="paidSearchInput" placeholder="Buscar por ID o Nombre de Usuario" class="block w-full border border-gray-300 rounded-md shadow-sm p-2 text-sm">
+                        <select id="paidModifierFilter" class="block w-60 border border-gray-300 rounded-md shadow-sm p-2 text-sm">
+                            <option value="">-- Filtrar por Modificador --</option>
+                        </select>
+                        <input type="date" id="paidStartDateInput" class="block w-40 border border-gray-300 rounded-md shadow-sm p-2 text-sm">
+                        <input type="date" id="paidEndDateInput" class="block w-40 border border-gray-300 rounded-md shadow-sm p-2 text-sm">
+                        <button id="paidFilterBtn" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition duration-200 text-sm">
+                            Filtrar
+                        </button>
+                        <button id="paidClearBtn" class="bg-gray-400 hover:bg-gray-500 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition duration-200 text-sm">
+                            Limpiar
+                        </button>
+                    </div>
+                </div>
+
+                <div class="overflow-x-auto">
+                    <table id="paidInvoicesTable" class="min-w-full bg-white">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="py-3 px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID Factura</th>
+                                <th class="py-3 px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID Usuario</th>
+                                <th class="py-3 px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Usuario</th>
+                                <th class="py-3 px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Plan / Concepto</th>
+                                <th class="py-3 px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Monto</th>
+                                <th class="py-3 px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Fecha Factura</th>
+                                <th class="py-3 px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Modificado por</th>
+                                <th class="py-3 px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Fecha Modificación</th>
+                            </tr>
+                        </thead>
+                        <tbody id="paidInvoicesTableBody" class="divide-y divide-gray-200">
+                            </tbody>
+                    </table>
+                </div>
+            </main>
+        </div>
+    </div>
+
+
+    <div id="bulkInvoiceReviewModal" class="fixed inset-0 bg-gray-900 bg-opacity-75 z-50 hidden flex items-center justify-center">
+        <div class="bg-white rounded-lg shadow-2xl w-11/12 max-w-5xl h-[95vh] flex flex-col">
+            <header class="p-4 border-b flex justify-between items-center">
+                <h2 class="text-2xl font-bold text-gray-800">Revisión y Edición de Facturas Masivas</h2>
+                <button id="closeBulkReviewModalBtn" class="text-gray-500 hover:text-gray-800 text-3xl">&times;</button>
+            </header>
+            <main class="flex-1 overflow-y-auto p-6">
+                <p class="mb-4 text-gray-700">Ajuste el monto o concepto de las facturas si es necesario. Solo las facturas **marcadas** serán generadas. Se generarán <strong id="invoicesToGenerateCount" class="text-blue-600">0</strong> facturas.</p>
+
+                <div class="overflow-x-auto">
+                    <table id="bulkInvoicesReviewTable" class="min-w-full bg-white">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="py-3 px-2 text-left w-12"><input type="checkbox" id="selectAllBulkInvoices"></th>
+                                <th class="py-3 px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID Cliente</th>
+                                <th class="py-3 px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nombre Cliente</th>
+                                <th class="py-3 px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Plan</th>
+                                <th class="py-3 px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Concepto</th>
+                                <th class="py-3 px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Monto</th>
+                            </tr>
+                        </thead>
+                        <tbody id="bulkInvoicesReviewTableBody" class="divide-y divide-gray-200">
+                            </tbody>
+                    </table>
+                </div>
+            </main>
+            <footer class="p-4 border-t flex justify-end space-x-4">
+                <button type="button" id="cancelBulkGenerationBtn" class="bg-gray-400 hover:bg-gray-500 text-white font-semibold py-2 px-4 rounded-lg shadow-md">Cancelar</button>
+                <button type="button" id="executeBulkGenerationBtn" class="bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md">Confirmar y Generar (<span id="executeBulkCount">0</span>)</button>
+            </footer>
+        </div>
+    </div>
+    
+    <div id="bulkInvoiceConfirmModal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full flex items-center justify-center">
+        <div class="relative mx-auto p-5 border w-full max-w-md shadow-lg rounded-md bg-white">
+            <div class="mt-3 text-center">
+                <div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-yellow-100">
+                    <svg class="h-6 w-6 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                </div>
+                <h3 class="text-lg leading-6 font-medium text-gray-900">Confirmación Requerida</h3>
+                   <div class="mt-2 px-7 py-3">
+                    <p class="text-sm text-gray-500">
+                        Está a punto de generar la facturacion para **TODOS** los clientes con planes activos. Esta acción no se puede deshacer.
+                    </p>
+                    <p class="mt-4 text-sm font-semibold text-gray-700">
+                        Para confirmar, por favor escriba la  <strong class="text-red-600">contraseña</strong> en el campo de abajo.
+                    </p>
+                    <input type="text" id="bulkConfirmInput" class="mt-2 w-full px-3 py-2 text-gray-700 border rounded-lg focus:outline-none" placeholder="Escriba aquí...">
+                </div>
+                <div class="items-center px-4 py-3">
+                    <button id="confirmBulkInvoiceBtn" class="px-4 py-2 bg-red-600 text-white text-base font-medium rounded-md w-full shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 opacity-50 cursor-not-allowed" disabled>
+                        Confirmar y Generar Facturas
+                    </button>
+                    <button id="cancelBulkInvoiceBtn" class="mt-2 px-4 py-2 bg-gray-200 text-gray-800 text-base font-medium rounded-md w-full shadow-sm hover:bg-gray-300 focus:outline-none">
+                        Cancelar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="statusModal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <h3 class="text-xl font-semibold mb-4">Cambiar Estado de Factura</h3>
+            <input type="hidden" id="modalFacturaId">
+            <div class="mb-4">
+                <label for="modalModifiedByDisplay" class="block text-sm font-medium text-gray-700">Realizado por:</label>
+                <input type="text" id="modalModifiedByDisplay" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 bg-gray-200" readonly>
+            </div>
+            <div class="mb-4">
+                <label for="modalCurrentStatusDisplay" class="block text-sm font-medium text-gray-700">Estado Actual:</label>
+                <input type="text" id="modalCurrentStatusDisplay" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 bg-gray-200" readonly>
+            </div>
+            <div class="mb-4">
+                <label for="modalNewStatus" class="block text-sm font-medium text-gray-700">Nuevo Estado:</label>
+                <select id="modalNewStatus" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2">
+                    <option value="Pendiente">Pendiente</option>
+                    <option value="Pagada">Pagada</option>
+                    <option value="Anulada">Anulada</option>
+                </select>
+            </div>
+            <div class="flex justify-end space-x-4">
+                <button type="button" id="saveStatusBtn" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition duration-200">Guardar</button>
+                <button type="button" id="cancelStatusBtn" class="bg-gray-400 hover:bg-gray-500 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition duration-200">Cancelar</button>
+            </div>
+        </div>
+    </div>
+    
+    <div id="editInvoiceModal" class="fixed inset-0 bg-gray-900 bg-opacity-75 z-50 hidden flex items-center justify-center">
+        <div class="bg-white rounded-lg shadow-2xl p-6 w-full max-w-sm">
+            <h3 class="text-xl font-semibold mb-4 text-gray-800">Editar Monto de Factura</h3>
+            <form id="editInvoiceForm">
+                <input type="hidden" id="editInvoiceId">
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700">Factura ID:</label>
+                    <p id="editInvoiceDisplayId" class="mt-1 p-2 bg-gray-100 border border-gray-300 rounded-md font-mono"></p>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700">Concepto Actual:</label>
+                    <p id="editInvoiceDisplayConcept" class="mt-1 p-2 bg-gray-100 border border-gray-300 rounded-md text-sm"></p>
+                </div>
+                <div class="mb-6">
+                    <label for="editInvoiceMonto" class="block text-sm font-medium text-gray-700">Nuevo Monto:</label>
+                    <input type="number" step="0.01" id="editInvoiceMonto" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" required>
+                </div>
+                <div class="flex justify-end space-x-4">
+                    <button type="button" id="cancelEditInvoiceBtn" class="bg-gray-400 hover:bg-gray-500 text-white font-semibold py-2 px-4 rounded-lg shadow-md">Cancelar</button>
+                    <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md">Guardar Monto</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script src="js/Script_panel.js"></script>
+</body>
+</html>

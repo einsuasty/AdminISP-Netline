@@ -1,0 +1,22 @@
+1. Instalar Python    
+ 
+
+abrir powershell 
+
+2. pip install routeros-api
+
+
+por si requiere actualizar 
+pip install --upgrade routeros-api
+
+
+
+
+
+desisntalar la librería
+C:\Users\EDUARD\AppData\Local\Programs\Python\Python313\python.exe -m pip uninstall routeros-api
+
+
+
+instalar nuevamente la librería
+C:\Users\EDUARD\AppData\Local\Programs\Python\Python313\python.exe -m pip install routeros-api

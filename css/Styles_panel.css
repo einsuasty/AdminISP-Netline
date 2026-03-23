@@ -1,0 +1,134 @@
+/*
+=====================================================
+  AÑADIR O MODIFICAR ESTOS ESTILOS PARA LOS BOTONES CON ÍCONO
+=====================================================
+*/
+/* Estilos generales del cuerpo y fuente */
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #f3f4f6;
+    margin: 0;
+    overflow-x: hidden; /* Evita el scroll horizontal */
+}
+
+/* Clase para ocultar el contenido de los módulos por defecto */
+.module-content {
+    display: none;
+}
+
+/* Clase para mostrar el módulo activo */
+.module-content.active {
+    display: block;
+}
+
+/* Estilo para el enlace del módulo activo en la barra lateral */
+.sidebar-link.active {
+    background-color: #c4c10c;
+    color: rgb(18, 3, 46);
+}
+
+/* Estilos para ocultar módulos no permitidos por permisos */
+.sidebar-link.hidden-by-permission,
+.module-content.hidden-by-permission {
+    display: none !important;
+}
+
+/* Estilos para el modal overlay */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+/* Estilos para el contenido del modal */
+.modal-content {
+    background-color: rgb(255, 255, 255);
+    padding: 2rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    max-width: 400px;
+}
+
+/* Estilo para el espacio en blanco con la imagen */
+#empty-space-module {
+    display: none; /* Oculto por defecto, se mostrará con JavaScript */
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh; /* Ajusta la altura para centrar en el viewport */
+    flex-direction: column;
+}
+
+#empty-space-module.active {
+    display: flex;
+}
+
+#empty-space-module img {
+    width: 100%; /* La imagen ocupará todo el ancho del contenedor */
+    height: 50%; /* La imagen ocupará toda la altura del contenedor */
+    object-fit: contain; /* Ajusta la imagen para que sea visible sin deformarse */
+    max-width: 1420px; /* Opcional: define un ancho máximo para que no sea excesivamente grande */
+}
+
+/* Estilo para el logo principal de la barra lateral */
+#logo {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Ocultar flechas en input de tipo número */
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+/*
+=====================================================
+  Estilos para la barra de encabezado (Header)
+=====================================================
+*/
+header {
+    /* Eliminamos el fondo blanco de Tailwind y aplicamos el degradado */
+    background-image: linear-gradient(to right, #1957b4, #e7e542);
+
+    /* Sombra para darle profundidad */
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+/*
+  Aseguramos que el texto dentro del header sea legible y consistente.
+  Usamos el mismo color de texto que tiene el botón activo del menú.
+*/
+header h1, header span {
+    color: rgb(18, 3, 46);
+}
+
+/* Ajuste CSS para la tabla (si se usa Tailwind, estos ajustes deben estar en las clases del HTML, pero los incluimos aquí para asegurar la apariencia del ícono) */
+.space-x-2 button svg {
+    display: inline-block;
+    vertical-align: middle;
+    /* Esto es importante para que el ícono sea blanco dentro del botón de color */
+    color: white; 
+}
+
+/* Ajuste para que los botones de acción sean compactos */
+.space-x-2 button {
+    /* Ya tienen p-2 en las funciones JS (p-2: padding de 0.5rem) */
+    /* Aseguramos que solo el ícono se muestre sin padding adicional */
+    padding: 0.5rem; 
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1; /* Para centrar verticalmente el ícono */
+}

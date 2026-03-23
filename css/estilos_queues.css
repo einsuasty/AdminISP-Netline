@@ -1,0 +1,178 @@
+/* --- Estilos Generales --- */
+
+/* Define los estilos base para toda la página (el cuerpo del HTML) */
+body {
+    font-family: Arial, sans-serif; /* Fuente principal para el texto */
+    background-color: #f4f7f6;      /* Color de fondo gris claro para la página */
+    margin: 0;                      /* Elimina el margen por defecto del navegador */
+    padding: 20px;                  /* Añade un espacio de 20px alrededor del contenido */
+    color: #333;                    /* Color de texto principal (gris oscuro) */
+}
+
+/* Contenedor principal que envuelve y centra todo el contenido */
+.container {
+    max-width: 600px;              /* Ancho máximo del contenedor */
+    margin: 0 auto;                 /* Centra el contenedor horizontalmente */
+    background-color: #fff;         /* Fondo blanco para el área de contenido */
+    padding: 20px 30px;             /* Espacio interno (relleno) */
+    border-radius: 8px;             /* Bordes redondeados */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Sombra suave para dar profundidad */
+}
+
+/* Estilos para los títulos principales (H1 y H2) */
+h1, h2 {
+    color: #007bff;                 /* Color de texto azul */
+    border-bottom: 2px solid #007bff; /* Línea azul debajo del título */
+    padding-bottom: 10px;           /* Espacio entre el texto y la línea */
+    margin-bottom: 20px;            /* Espacio debajo de la línea */
+}
+
+/* --- Estilos de Formularios --- */
+
+/* Estilos comunes para los formularios de login y de agregar */
+.login-form, .add-form {
+    display: flex;                  /* Usa Flexbox para alinear los elementos */
+    flex-direction: column;         /* Apila los elementos verticalmente */
+    gap: 15px;                      /* Espacio entre los elementos del formulario */
+    margin-bottom: 20px;            /* Espacio debajo del formulario */
+}
+
+/* Define el layout para los grupos de elementos dentro de los formularios */
+.login-form .form-group, .add-form {
+    display: flex;
+    flex-wrap: wrap;                /* Permite que los elementos se ajusten en varias líneas si no caben */
+    gap: 10px;
+}
+
+/* Estilo específico para las etiquetas (label) del formulario de login */
+.login-form label {
+    font-weight: bold;              /* Texto en negrita */
+    flex-basis: 150px;              /* Ancho base fijo para la etiqueta */
+}
+
+/* Estilos para los campos de entrada de texto, contraseña y número */
+input[type="text"],
+input[type="password"],
+input[type="number"] {
+    flex-grow: 1;                   /* Hace que el campo de entrada ocupe el espacio disponible */
+    padding: 10px;                  /* Relleno interno */
+    border: 1px solid #ccc;         /* Borde gris claro */
+    border-radius: 4px;             /* Bordes redondeados */
+    font-size: 1rem;                /* Tamaño de fuente estándar */
+}
+
+/* --- Estilos de Botones --- */
+
+/* Estilos generales para todos los botones */
+button {
+    padding: 10px 15px;             /* Relleno interno */
+    border: none;                   /* Sin borde */
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;                /* Cambia el cursor a una mano para indicar que es clickeable */
+    background-color: #10c44c;      /* Color de fondo azul oscuro */
+    color: white;                   /* Texto blanco */
+    transition: background-color 0.3s; /* Transición suave para el cambio de color */
+}
+
+/* Efecto al pasar el mouse sobre cualquier botón */
+button:hover {
+    background-color: #00b32d;      /* Cambia el color de fondo a verde */
+}
+
+/* --- Estilos de la Sesión y Tabla --- */
+
+/* Estilo para la barra que muestra la información del usuario conectado */
+.session-info {
+    background-color: #e9ecef;      /* Fondo gris muy claro */
+    padding: 10px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    display: flex;                  /* Usa Flexbox para alinear los elementos */
+    justify-content: space-between; /* Distribuye el espacio entre los elementos */
+    align-items: center;            /* Centra los elementos verticalmente */
+}
+
+/* Estilo específico para el botón de "Cerrar Sesión" */
+.logout-btn {
+    background-color: #dc3545;      /* Color de fondo rojo */
+    color: white;
+    padding: 8px 12px;
+    text-decoration: none;          /* Quita el subrayado del enlace */
+    border-radius: 4px;
+}
+
+/* Efecto al pasar el mouse sobre el botón de cerrar sesión */
+.logout-btn:hover {
+    background-color: #c82333;      /* Rojo más oscuro */
+}
+
+/* Estilos para la tabla que lista las "queues" */
+.queues-table {
+    width: 100%;                    /* La tabla ocupa todo el ancho disponible */
+    border-collapse: collapse;      /* Colapsa los bordes de las celdas para un look más limpio */
+    margin-top: 20px;               /* Espacio arriba de la tabla */
+}
+
+/* Estilos para todas las celdas (th y td) de la tabla */
+.queues-table th,
+.queues-table td {
+    border: 1px solid #ddd;         /* Borde gris claro para las celdas */
+    padding: 12px;                  /* Relleno interno */
+    text-align: left;               /* Alineación del texto a la izquierda */
+}
+
+/* Estilos solo para las celdas de encabezado (th) */
+.queues-table th {
+    background-color: #f2f2f2;      /* Fondo gris claro para los encabezados */
+    font-weight: bold;
+}
+
+/* Estilo para las filas pares (efecto cebra para mejorar la legibilidad) */
+.queues-table tr:nth-child(even) {
+    background-color: #f9f9f9;      /* Fondo gris muy claro para filas pares */
+}
+
+/* Contenedor para los botones de "Editar" y "Eliminar" dentro de la tabla */
+.queues-table .actions {
+    display: flex;
+    gap: 10px;                      /* Espacio entre los botones */
+}
+
+/* --- Estilos de Botones de Acción y Errores --- */
+
+/* Estilo para el botón de editar */
+.edit-btn {
+    background-color: #ffc107;      /* Color de fondo amarillo */
+}
+
+.edit-btn:hover {
+    background-color: #e0a800;      /* Amarillo más oscuro */
+}
+
+/* Estilo para el botón de eliminar */
+.delete-btn {
+    background-color: #dc3545;      /* Color de fondo rojo */
+}
+
+.delete-btn:hover {
+    background-color: #c82333;      /* Rojo más oscuro */
+}
+
+/* Estilo para los mensajes de error */
+.error {
+    color: red;                     /* Texto rojo */
+    font-weight: bold;
+    padding: 10px;
+    border: 1px solid red;          /* Borde rojo */
+    border-radius: 4px;
+    background-color: #fdd;         /* Fondo rojo claro */
+}
+
+/* Estilo para la línea horizontal (separador) */
+hr {
+    border: 0;                      /* Quita el borde por defecto */
+    height: 1px;                    /* Altura de la línea */
+    background: #ddd;               /* Color de la línea */
+    margin: 30px 0;                 /* Espacio vertical arriba y abajo del separador */
+}
