@@ -14,14 +14,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
     exit(0);
 }
 
-// --- Configuración para tu hosting cPanel ---
-$host = 'localhost';                 // IP pública de tu servidor
-$db   = 'ynetliny3_netlinecolombiaisp'; // Nombre completo de la base de datos
-$user = 'ynetliny3_einsuasty';        // Usuario completo de la base de datos
-$pass = 'NetLine15*'; // <-- ¡IMPORTANTE! Reemplaza esto
-$charset = 'utf8mb4';
-// Data Source Name (DSN)
-$dsn = "mysql:host=$host;port=3306;dbname=$db;charset=$charset";
 
 // Opciones de PDO para seguridad y manejo de errores
 $options = [
